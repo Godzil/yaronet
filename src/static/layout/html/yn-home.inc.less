@@ -60,6 +60,23 @@
 				}
 			}
 		}
+		.shout-day {
+			text-align:	center;
+			display: block;
+			overflow: hidden;
+			color:	@guest-text;
+		}
+		.shout-day:before, .shout-day:after {
+			content: "";
+			display: inline-block;
+			width: 50%;
+			margin: 0 .5em 0 -55%;
+			vertical-align: middle;
+			border-bottom: 1px solid @guest-text;
+		}
+		.shout-day:after {
+			margin: 0 -55% 0 .5em;
+		}
 	}
 
 	.index {

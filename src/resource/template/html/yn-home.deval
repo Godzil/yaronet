@@ -78,23 +78,26 @@
 					<div class="panel-header">{{ $ tra ("yn.home.chat") }}</div>
 					<div class="panel-body">
 						<ul>
-							{{ for shout in shouts }}
-								<li>
-									{{ if user.is_admin }}
-										<a href="{{ $ url ("chat.shout.delete", ["shout": shout.id]) }}">
-									{{ end }}
-									<em class="time">{{ $ tra ("yn.home.chat.time", ["time": shout.time]) }}</em>
-									{{ if user.is_admin }}
-										</a>
-									{{ end }}
-									{{ $ " " }}
-									<strong class="author {{ $ shout.is_guest && "guest" || "user" }}">{{ $ shout.nick }}</strong>
-									<span class="text">
-										{{ unwrap }}
-											{{ $ shout.render_text ("html", router, logger) }}
+							{{ for day, shoutsofday in group(shouts, (s) => tra("base.type.date.relative", ["time": s.time]), (s) => [s], (a, b) => cat(a, b)) }}
+								{{ for shout in shoutsofday }}
+									<li>
+										{{ if user.is_admin }}
+											<a href="{{ $ url ("chat.shout.delete", ["shout": shout.id]) }}">
 										{{ end }}
-									</span>
-								</li>
+										<em class="time">{{ $ tra ("yn.home.chat.time", ["time": shout.time]) }}</em>
+										{{ if user.is_admin }}
+											</a>
+										{{ end }}
+										{{ $ " " }}
+										<strong class="author {{ $ shout.is_guest && "guest" || "user" }}">{{ $ shout.nick }}</strong>
+										<span class="text">
+											{{ unwrap }}
+												{{ $ shout.render_text ("html", router, logger) }}
+											{{ end }}
+										</span>
+									</li>
+								{{ end }}
+								<li> <span class="shout-day">{{ $ day }}</span> </li>
 							{{ end }}
 						</ul>
 						<form class="form-cascade form-thick" action="{{ $ url ("chat.shout.new") }}" method="POST">
