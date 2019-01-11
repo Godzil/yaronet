@@ -131,6 +131,7 @@ class Display
     private $suffix;
     private $template;
     private $user;
+    private $renderer_cache;
 
     public function __construct($sql, $logger, $router, $template, $language, $user)
     {
@@ -142,6 +143,7 @@ class Display
         $this->sql = $sql;
         $this->template = $template;
         $this->user = $user;
+        $this->renderer_cache = config('engine.text.display.cache', './storage/cache/template');
     }
 
     public function render($file, $location, $variables = array(), $external = null, $failover = false)
@@ -188,8 +190,7 @@ class Display
         $setup = new \Deval\Setup();
         $setup->style = 'deindent,collapse';
 
-        $renderer_cache = config('engine.text.display.cache', './storage/cache/template');
-        $renderer = $renderer_cache !== null ? new \Deval\CacheRenderer($path, $renderer_cache, $setup) : new \Deval\FileRenderer($path, $setup);
+        $renderer = $this->renderer_cache !== null ? new \Deval\CacheRenderer($path, $this->renderer_cache, $setup) : new \Deval\FileRenderer($path, $setup);
 
         $self = get_class();
         $static = \yN\Engine\Network\URL::to_static();

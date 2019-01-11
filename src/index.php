@@ -17,6 +17,10 @@ function config($key, $value)
         return $config[$key];
     }
 
+    if ($value != null) {
+        $config[$key] = $value;
+    }
+
     return $value;
 }
 

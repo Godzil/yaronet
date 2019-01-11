@@ -4,6 +4,8 @@ namespace yN\Engine\Text;
 
 defined('YARONET') or die;
 
+$locale_cache = config('engine.text.i18n.cache', './storage/cache/language');
+
 class Internationalization
 {
     public static $languages = array('fr', 'en');
@@ -37,7 +39,6 @@ class Internationalization
             $language = self::default_language();
         }
 
-        $locale_cache = config('engine.text.i18n.cache', './storage/cache/language');
         $locale_source = config('engine.text.i18n.source', './resource/language');
 
         $locale = new \Losp\Locale(mb_internal_encoding(), $language, $locale_source, $locale_cache !== null ? $locale_cache . '/' . $language . '.php' : null);
